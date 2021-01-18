@@ -1,0 +1,3 @@
+C:/Users/Hatun/CLionProjects/DataProje/cmake-build-debug/CMakeFiles/DataProje.dir
+C:/Users/Hatun/CLionProjects/DataProje/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Hatun/CLionProjects/DataProje/cmake-build-debug/CMakeFiles/rebuild_cache.dir
