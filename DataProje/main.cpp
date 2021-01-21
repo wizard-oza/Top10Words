@@ -2,15 +2,69 @@
 #include <fstream>
 #include <map>
 using namespace std;
+class maxHeap{
+private:
+    int size{};
+    int array[100];
+    string words[100];
+    int parent(int i){return i>>1;};
+    int left(int i){ return i<<1;};
+    int right(int i){return (i<<1)+1;};
+public:
+    bool isEmpty()const {return size ==0;};
+    void shiftUp(int i ){
+        if(i > size)return;
+        if( i== 1) return;
+        if(array[i]>array[parent(i)]){
+            swap(array[parent(i)],array[i]);
+        }
+        shiftUp(parent(i));
+    }
+
+    void shiftDown(int i){
+        if(i>size)return;
+        int swapId =i;
+        if(left(i)<= size && array[left(i)]){
+            swapId = left(i);
+        }
+        if(right(i)<= size && array[swapId] < array[right(i)]){
+            swapId = right(i);
+        }
+        if(swapId != i){
+            swap(array[i],array[swapId]);
+            shiftDown(swapId);
+        }
+        return;
+    }
+
+    void popMax(){
+        swap(array[1],array[size--]);
+        shiftDown(1);
+    }
+    void insertItem(int value,string const word){
+        array[++size]=value;
+        words[++size]=word;
+        shiftUp(size);
+        return;
+    }
+    void get_max(){
+        cout<<words[1]<<" "<<array[1]<<endl;
+        popMax();
+    }
+
+};
+
 void print_all(map<string ,int> &t,const string& sep = " " ){
     map<string ,int>::iterator itr = t.begin();
     itr++;
+    int i =0;
     while(itr != t.end()){
         cout<<itr->first<<sep<<itr->second;
         cout<<endl;
         itr++;
+        i++;
     }
-    cout<<endl;
+    cout<< "Total Of "<<i<<" Words."<<endl;
 }
 bool check_keyword(const string& word){
     string keyword = "<BODY>";
@@ -32,6 +86,22 @@ bool check_if_bad(map<string ,int>&t,const string& line){
 
         return false;
     }
+}
+void get_biggest_values(map<string,int>&t){
+    map<string,int>::iterator itr = t.begin();
+    itr++;
+    while(itr != t.end()){
+        if(itr->second>400){
+            cout<<itr->first<<" "<<itr->second;
+        }
+        else{
+
+        }
+        itr++;
+
+    }
+    cout<<itr->first<<" "<<itr->second;
+    t.erase(itr);
 }
 void add_word(map<string ,int>&t,const string& word){
     map<string ,int>::iterator end =t.end();
@@ -64,8 +134,22 @@ string check_if_upper_case(string line){
     return  line;
 }
 int main() {
-    int i =0;
-    map<string ,int>badWords;
+    maxHeap * priortyQueue= new maxHeap();
+    if(priortyQueue->isEmpty()){
+        cout<<"Is empty"<<endl;
+    }
+    else{
+        cout<<"NOt working"<<endl;
+    }
+    priortyQueue->insertItem(12,"Ozan");
+    priortyQueue->insertItem(55,"word");
+    priortyQueue->insertItem(34,"Atakan");
+    priortyQueue->insertItem(4,"Hatun");
+    priortyQueue->insertItem(41,"HakkI");
+    priortyQueue->get_max();
+    priortyQueue->get_max();
+    priortyQueue->get_max();
+    /*map<string ,int>badWords;
     ifstream bad;
     bad.open("stopwords.txt");
     string line;
@@ -77,6 +161,7 @@ int main() {
     map<string,int>reuter;
     ifstream reuters;
     string line2;
+
     reuters.open("reut2-000.sgm");
     while(getline(reuters,line2)){
         string tmp;
@@ -414,6 +499,6 @@ int main() {
     }
     print_all(reuter);
     bad.close();
-    reuters.close();
+    reuters.close();*/
     return 0;
 }
