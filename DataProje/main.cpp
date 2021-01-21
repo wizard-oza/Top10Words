@@ -2,58 +2,6 @@
 #include <fstream>
 #include <map>
 using namespace std;
-class maxHeap{
-private:
-    int size{};
-    int array[100];
-    string words[100];
-    int parent(int i){return i>>1;};
-    int left(int i){ return i<<1;};
-    int right(int i){return (i<<1)+1;};
-public:
-    bool isEmpty()const {return size ==0;};
-    void shiftUp(int i ){
-        if(i > size)return;
-        if( i== 1) return;
-        if(array[i]>array[parent(i)]){
-            swap(array[parent(i)],array[i]);
-        }
-        shiftUp(parent(i));
-    }
-
-    void shiftDown(int i){
-        if(i>size)return;
-        int swapId =i;
-        if(left(i)<= size && array[left(i)]){
-            swapId = left(i);
-        }
-        if(right(i)<= size && array[swapId] < array[right(i)]){
-            swapId = right(i);
-        }
-        if(swapId != i){
-            swap(array[i],array[swapId]);
-            shiftDown(swapId);
-        }
-        return;
-    }
-
-    void popMax(){
-        swap(array[1],array[size--]);
-        shiftDown(1);
-    }
-    void insertItem(int value,string const word){
-        array[++size]=value;
-        words[++size]=word;
-        shiftUp(size);
-        return;
-    }
-    void get_max(){
-        cout<<words[1]<<" "<<array[1]<<endl;
-        popMax();
-    }
-
-};
-
 void print_all(map<string ,int> &t,const string& sep = " " ){
     map<string ,int>::iterator itr = t.begin();
     itr++;
@@ -88,20 +36,31 @@ bool check_if_bad(map<string ,int>&t,const string& line){
     }
 }
 void get_biggest_values(map<string,int>&t){
-    map<string,int>::iterator itr = t.begin();
-    itr++;
-    while(itr != t.end()){
-        if(itr->second>400){
-            cout<<itr->first<<" "<<itr->second;
-        }
-        else{
-
-        }
+    map<string,int>::iterator itr;
+    map<string,int>::iterator tmp;
+    map<string,int>pA;
+    for(int i=0;i<10;i++){
+        itr = t.begin();
         itr++;
+        int max = itr->second;
+        while(itr!=t.end()){
+            if(itr->second>max){
+               tmp = itr;
+            }
+            else{
 
+            }
+            itr++;
+        }
+        pair<string,int>tmp1(tmp->first,tmp->second);
+        pA.insert(tmp1);
+        t.erase(tmp);
     }
-    cout<<itr->first<<" "<<itr->second;
-    t.erase(itr);
+    map<string,int>::iterator itr1 = pA.begin();
+    while (itr1 != pA.end()){
+        cout<<itr1->first<<" "<<itr1->second<<endl;
+        itr1++;
+    }
 }
 void add_word(map<string ,int>&t,const string& word){
     map<string ,int>::iterator end =t.end();
@@ -133,26 +92,12 @@ string check_if_upper_case(string line){
     }
     return  line;
 }
-int main() {
-    maxHeap * priortyQueue= new maxHeap();
-    if(priortyQueue->isEmpty()){
-        cout<<"Is empty"<<endl;
-    }
-    else{
-        cout<<"NOt working"<<endl;
-    }
-    priortyQueue->insertItem(12,"Ozan");
-    priortyQueue->insertItem(55,"word");
-    priortyQueue->insertItem(34,"Atakan");
-    priortyQueue->insertItem(4,"Hatun");
-    priortyQueue->insertItem(41,"HakkI");
-    priortyQueue->get_max();
-    priortyQueue->get_max();
-    priortyQueue->get_max();
-    /*map<string ,int>badWords;
+int main(){
+    map<string ,int>badWords;
     ifstream bad;
     bad.open("stopwords.txt");
     string line;
+    int i=0;
     while(getline(bad,line)){
         i++;
         pair<string ,int> temp (line,i);
@@ -169,12 +114,6 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
         add_word(reuter,tmp);
-        if(check_keyword(tmp)){
-            cout<<"YES"<<endl;
-        }
-        else{
-
-        }
             }
     }
     reuters.close();
@@ -185,12 +124,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -201,12 +135,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -217,12 +146,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -233,12 +157,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -249,12 +168,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -265,12 +179,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -281,12 +190,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -297,12 +201,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -313,12 +212,6 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
-
-            }
         }
     }
     reuters.close();
@@ -329,12 +222,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -345,12 +233,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -361,12 +244,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -377,12 +255,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -393,12 +266,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -409,12 +277,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -425,12 +288,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -441,12 +299,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -457,12 +310,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -473,12 +321,7 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
 
-            }
         }
     }
     reuters.close();
@@ -489,16 +332,10 @@ int main() {
         tmp =check_if_upper_case(tmp);
         if(!check_if_bad(badWords,tmp)){
             add_word(reuter,tmp);
-            if(check_keyword(tmp)){
-                cout<<"YES"<<endl;
-            }
-            else{
-
-            }
         }
     }
-    print_all(reuter);
+    get_biggest_values(reuter);
     bad.close();
-    reuters.close();*/
+    reuters.close();
     return 0;
 }
